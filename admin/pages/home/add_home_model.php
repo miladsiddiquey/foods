@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
         'paragraph' => $paragraph,
         'image' => $filename
     ]);
-    $result = $obj->getResult();
+    $result = $obj->getResult(); 
 
     if ($result) {
         move_uploaded_file($tempfile, $folder);
