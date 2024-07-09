@@ -93,7 +93,7 @@ if (isset($_POST['submit'])) {
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Image</label>
-                        <input type="file" name="sub_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="images[]" class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <div class="form-check">
                               <label class="form-check-label">

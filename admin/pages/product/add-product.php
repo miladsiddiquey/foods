@@ -5,16 +5,20 @@ include "../../config.php";
 $obj = new Database();
 
 if (isset($_POST['submit'])) {
-    $title = $_POST['title'];
-    $para = $_POST['paragraph'];
-    $filename = $_FILES['image']['name'];
-    $tempfile = $_FILES['image']['tmp_name'];
+    $header_title = $_POST['header_title'];
+    $product_name = $_POST['product_name'];
+    $product_description = $_POST['product_description'];
+    $price = $_POST['price'];
+    $filename = serialize($_FILES['images']['name']);
+    $tempfile = $_FILES['images']['tmp_name'];
     $folder = "../../../uplode-image/" .$filename;
 
-    $obj->insert('model_data', [
-        'title' => $title,
-        'paragraph' => $para,
-        'image' => $filename
+    $obj->insert('food_menu', [
+        'header_title' => $header_title,
+        'product_name' => $product_name,
+        'product_description' => $product_description,
+        'price' => $price,
+        'images' => $filename
     ]);
     $result = $obj->getResult();
 
@@ -23,7 +27,7 @@ if (isset($_POST['submit'])) {
         ?>
         <script>
             alert("Data added successfully");
-            window.open('http://localhost/food/admin/pages/home/list_home_model.php', '_self');
+            // window.open('http://localhost/food/admin/pages/product/add-product.php', '_self');
         </script>
         <?php
     } else {
@@ -59,7 +63,7 @@ if (isset($_POST['submit'])) {
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Header Image</label>
-                        <input type="file" name="header_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="images[] " class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Product Name</label>
@@ -75,7 +79,7 @@ if (isset($_POST['submit'])) {
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Product Image</label>
-                        <input type="file" name="product_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="images[]" class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
                     </form>
