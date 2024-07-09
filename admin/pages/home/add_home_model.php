@@ -9,21 +9,21 @@ if (isset($_POST['submit'])) {
     $para = $_POST['paragraph'];
     $filename = $_FILES['image']['name'];
     $tempfile = $_FILES['image']['tmp_name'];
-    $folder = "../../../uplode-image/" .$filename;
+    $folder = "../../../uploade-images/" . $filename;
 
     $obj->insert('model_data', [
         'title' => $title,
         'paragraph' => $para,
         'image' => $filename
     ]);
-    $result = $obj->getResult(); 
+    $result = $obj->getResult();
 
     if ($result) {
         move_uploaded_file($tempfile, $folder);
         ?>
         <script>
             alert("Data added successfully");
-            window.open('http://localhost/food/admin/pages/home/list_home_model.php', '_self');
+            window.open('http://localhost/foods/admin/pages/home/list_home_model.php', '_self');
         </script>
         <?php
     } else {

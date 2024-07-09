@@ -21,6 +21,41 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/favicon.png" />
+    <!-- item code add-subproduct page -->
+    <style>
+        .input-container {
+            margin-top: ;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .input-box {
+            margin-right: 10px;
+            border: 1px solid #2c2e33;
+            height: calc(2.25rem + 2px);
+            font-weight: normal;
+            font-size: 0.875rem;
+            padding: 0.625rem 0.6875rem;
+            background-color: #2A3038;
+            border-radius: 2px;
+            color: #ffffff;
+        }
+        .add-btn{
+          background: green;
+          border: none;
+          color: white;
+          border-radius: 3px;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+    
   </head>
   <body>
     <div class="container-scroller">

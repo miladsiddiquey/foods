@@ -52,20 +52,30 @@ if (isset($_POST['submit'])) {
               <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Default form</h4>
-                    <p class="card-description"> Basic form layout </p>
                     <form class="forms-sample" action="add_home_model.php" method="post" enctype="multipart/form-data">
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Title</label>
-                        <input type="text" name="title" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                        <label for="exampleInputUsername1">Header Title</label>
+                        <input type="text" name="header_title" class="form-control" id="exampleInputUsername1" placeholder="Header Title">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Description</label>
-                        <textarea  type="text" name="description" class="form-control" id="exampleInputEmail1" rows="5"></textarea>
+                        <label for="exampleInputPassword1">Header Image</label>
+                        <input type="file" name="header_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputPassword1">Image</label>
-                        <input type="file" name="image" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <label for="exampleInputUsername1">Product Name</label>
+                        <input type="text" name="product_name" class="form-control" id="exampleInputUsername1" placeholder="Product Name">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Product Description</label>
+                        <textarea  type="text" name="product_description" class="form-control" id="exampleInputEmail1" rows="2"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Price</label>
+                        <input type="number" name="price" class="form-control" id="exampleInputUsername1" placeholder="price">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Product Image</label>
+                        <input type="file" name="product_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
                     </form>
@@ -80,7 +90,7 @@ if (isset($_POST['submit'])) {
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th> # </th>
+                            <th>#</th>
                             <th> Title </th>
                             <th> Paragraph </th>  
                             <th> Image </th>
@@ -97,7 +107,7 @@ if (isset($_POST['submit'])) {
                     foreach ($result as $row) {
                   ?>
                   <tr>
-                    <td><?= $row['id']; ?></td>
+                    <td><a href="./add-subproduct.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;">Configer</a></td>
                     <td><?= substr($row['title'],0,40). '...'; ?></td>
                     <td><?=  substr($row['paragraph'],0,40). '...'; ?></td>
                     <td><img src="<?= "../../../uplode-image/" . $row['image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>

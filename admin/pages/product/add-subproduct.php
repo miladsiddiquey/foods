@@ -2,6 +2,7 @@
 include "../include/header.php";
 include "../../config.php";
 
+
 $obj = new Database();
 
 if (isset($_POST['submit'])) {
@@ -36,6 +37,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
@@ -53,21 +55,52 @@ if (isset($_POST['submit'])) {
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Default form</h4>
-                    <p class="card-description"> Basic form layout </p>
+                    
                     <form class="forms-sample" action="add_home_model.php" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Title</label>
-                        <input type="text" name="title" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                        <input type="text" name="sub_title" class="form-control" id="exampleInputUsername1" placeholder="title">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Description</label>
-                        <textarea  type="text" name="description" class="form-control" id="exampleInputEmail1" rows="5"></textarea>
+                        <textarea  type="text" name="sub_description" class="form-control" id="exampleInputEmail1" rows="2"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Price</label>
+                        <input type="number" name="sub_price" class="form-control" id="exampleInputUsername1" placeholder="Price">
+                      </div>
+                       <!-- Button to add new input group -->
+                        <div>
+                          <button type="button" class="add-btn" onclick="addInputBox()">+</button>
+                          <label for="exampleInputPassword1">Items</label>
+                        </div>
+                       
+                      <!-- Container for dynamic inputs -->
+                      <div id="input-container" class="input-container">
+                              <!-- Existing static input group -->
+                              <div class="input-group ">
+                                  <input type="text" placeholder="Item" name="items[]" class="input-box">
+                                  <input type="text" placeholder="Price" name="items_price[]" class="input-box">
+                                  <button class="delete-btn" onclick="deleteInputBox(this.parentElement)">✖</button>
+                              </div>
+                      </div>
+                      <div class="form-group mt-3">
+                        <label for="exampleInputUsername1">Select Maximum & Minimum Item</label>
+                        <div class="d-flex">
+                        <input type="number" name="max_number" class="form-control mr-2" id="exampleInputUsername1" placeholder="max number">
+                        <input type="number" name="min_number" class="form-control " id="exampleInputUsername1" placeholder="min number">
+                        </div>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Image</label>
-                        <input type="file" name="image" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="sub_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
+                      <div class="form-check">
+                              <label class="form-check-label">
+                              <input type="checkbox" name="required" value="required" class="form-check-input" checked> Required </label>
+                        </div>
                       <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
+                     
                     </form>
                   </div>
                 </div>
@@ -92,8 +125,6 @@ if (isset($_POST['submit'])) {
                     $obj->select('model_data', '*', null, null, null, $limit);
                     $result = $obj->getResult();
 
-                    
-                   
                     foreach ($result as $row) {
                   ?>
                   <tr>
@@ -116,7 +147,43 @@ if (isset($_POST['submit'])) {
               </div>
             </div>
             </div>
-          
+ <!-- script for item -->
+    <script>
+    function addInputBox() {
+        const container = document.getElementById('input-container');
+        const inputGroup = document.createElement('div');
+        inputGroup.className = 'input-group';
+
+        const inputBox = document.createElement('input');
+        inputBox.type = 'text';
+        inputBox.placeholder = 'Item';
+        inputBox.className = 'input-box';
+        inputBox.name = 'items[]'; // Set the name attribute for form submission
+
+        const priceBox = document.createElement('input');
+        priceBox.type = 'text';
+        priceBox.placeholder = 'Price';
+        priceBox.className = 'input-box';
+        priceBox.name = 'items_price[]'; // Set the name attribute for form submission
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerHTML = '✖';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.onclick = function() {
+            container.removeChild(inputGroup);
+        };
+
+        inputGroup.appendChild(inputBox);
+        inputGroup.appendChild(priceBox);
+        inputGroup.appendChild(deleteBtn);
+        container.appendChild(inputGroup);
+    }
+
+    function deleteInputBox(inputGroup) {
+        const container = document.getElementById('input-container');
+        container.removeChild(inputGroup);
+    }
+</script> 
                    
                     
 <?php include '../include/footer.php'?>          
