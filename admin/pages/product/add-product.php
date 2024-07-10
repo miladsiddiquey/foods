@@ -3,23 +3,11 @@ include "../include/header.php";
 include "../../config.php";
 
 $obj = new Database();
-if (isset($_GET['id'])) {
-  $id = $_GET['id'];
-  // Fetch the specific record for the given ID
-  $obj->select('product_faq', '*', null, "id=$id", null, null);
-  $result = $obj->getResult();
-  if (count($result) > 0) {
-      $row = $result[0];
-  } else {
-      echo "No record found for the given ID";
-      exit;
-  }
-} else {
-  echo "ID parameter is missing";
-  exit;
-}
+
 
 if (isset($_POST['submit'])) {
+    
+    $faq_id = $_POST['faq_id'];
     $product_name = $_POST['product_name'];
     $product_description = $_POST['product_description'];
     $price = $_POST['price'];
@@ -29,6 +17,7 @@ if (isset($_POST['submit'])) {
     move_uploaded_file($product_tempfile, $product_folder);
 
     $obj->insert('food_menu', [
+        'faq_id' => $faq_id,
         'product_name' => $product_name,
         'product_description' => $product_description,
         'price' => $price,
@@ -40,7 +29,7 @@ if (isset($_POST['submit'])) {
         ?>
         <script>
             alert("Data added successfully");
-            window.open('http://localhost/foods/admin/pages/product/add-product.php?id=<?= $row['id']; ?>', '_self');
+            window.open('http://localhost/foods/admin/pages/product/add-product.php', '_self');
         </script>
         <?php
     } else {
@@ -51,8 +40,12 @@ if (isset($_POST['submit'])) {
         </script>
         <?php
     }
+    
+  
 }
+
 ?>
+
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
@@ -72,11 +65,12 @@ if (isset($_POST['submit'])) {
                     <form class="forms-sample" action="add-product.php" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Product Name</label>
-                        <input type="text" name="product_name" class="form-control" id="exampleInputUsername1" placeholder="Product Name">
+                        <input type="hidden" name="faq_id" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
+                        <input type="text" name="product_name" class="form-control" id="exampleInputUsername1"  placeholder="Product Name">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Product Description</label>
-                        <textarea  type="text" name="product_description" class="form-control" id="exampleInputEmail1" rows="2"></textarea>
+                        <textarea  type="text" name="product_description" class="form-control"  id="exampleInputEmail1" rows="2"></textarea>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Price</label>

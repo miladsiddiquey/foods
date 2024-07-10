@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
         ?>
         <script>
             alert("Data added successfully");
-            window.open('http://localhost/foods/admin/pages/product/add-subproduct.php?id=<?= $row['id']; ?>', '_self');
+            window.open('http://localhost/foods/admin/pages/product/add-subproduct.php', '_self');
         </script>
         <?php
     } else {
@@ -147,8 +147,8 @@ if (isset($_POST['submit'])) {
                     <td><?=  $row['required']; ?></td>
                     <td><img src="<?= "../../../upload-image/" . $row['sub_image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
                     <td>
-                      <a href="./edit_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
-                      <a onclick="return confirm('Are you sure?')" href="./delate_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>
+                      <a href="./edit_home_model.php?id=<?= $row['food_id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
+                      <a onclick="return confirm('Are you sure?')" href="./delate_home_model.php?id=<?= $row['food_id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>
                     </td>
                   </tr>
                   

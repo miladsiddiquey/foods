@@ -31,8 +31,10 @@ if (isset($_POST['submit'])) {
             alert("Please try again. Error: <?php echo json_encode($error); ?>");
         </script>
         <?php
-    }
+ 
 }
+}
+
 ?>
         <!-- partial -->
         <div class="main-panel">
@@ -53,7 +55,7 @@ if (isset($_POST['submit'])) {
                     <form class="forms-sample" action="add-prod-faq.php" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Header Title</label>
-                        <input type="text" name="header_title" class="form-control" id="exampleInputUsername1" placeholder="Header Title">
+                        <input type="text" name="header_title" class="form-control" id="exampleInputUsername1"  placeholder="Header Title">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Header Image</label>
