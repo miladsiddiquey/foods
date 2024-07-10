@@ -337,8 +337,321 @@
                               Flavors.</small
                             >
                             <h6>$6.57</h6>
+                          </div>                        
+                        </div>                      
+                        <div class="food-details-right">
+                          <div class="food-add-plus">
+                            <i class="fa-solid fa-plus"></i>
+                          </div>
+
+                          <button
+                            class="view-product simple-modal-btn"
+                            date-info="food-modal-main-1"
+                          >
+                            View Product
+                          </button>
+                        </div>
+
+                        <div class="simple-modal" id="food-modal-main-1">
+                          <div class="simple-modal-box">
+                            <div class="simple-modal-header">
+                              <h5>Food Details</h5>
+                              <i class="fa-solid fa-xmark"></i>
+                            </div>
+
+                            <div class="simple-modal-body">
+                              <div class="add-more-item-modal">
+                                <img src="img/Rectangle 93.png" alt="img" />
+
+                                <div class="add-more-modal-header">
+                                  <h4>Food Name Here !!</h4>
+                                  <h5>$12.98</h5>
+                                </div>
+                                <p>
+                                  Served with some celery , 1 dressing & at most
+                                  1 Flavor
+                                </p>
+                                <div class="food-modal-faq">
+                                  <div
+                                    class="accordion accordion-flush"
+                                    id="food-modal-faq"
+                                  >
+                                    <div class="accordion-item">
+                                      <h2
+                                        class="accordion-header"
+                                        id="food-modal-faq-header-1"
+                                      >
+                                        <button
+                                          class="accordion-button collapsed"
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target="#food-modal-faq-body-1"
+                                          aria-expanded="false"
+                                          aria-controls="food-modal-faq-body-1"
+                                        >
+                                          Select your wing ( flavor 1)
+                                          <span>Required</span>
+                                          <small>(Choose 1 item.)</small>
+                                        </button>
+                                      </h2>
+                                      <div
+                                        id="food-modal-faq-body-1"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="food-modal-faq-header-1"
+                                        data-bs-parent="#food-modal-faq-body-1"
+                                      >
+                                        <div class="accordion-body">
+                                          <div
+                                            class="food-input-content food-input-content-1"
+                                          >
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-1"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-1"
+                                                >BBQ</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-2"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-2"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-3"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-3"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-4"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-4"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                      <h2
+                                        class="accordion-header"
+                                        id="food-modal-faq-header-2"
+                                      >
+                                        <button
+                                          class="accordion-button collapsed"
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target="#food-modal-faq-body-2"
+                                          aria-expanded="false"
+                                          aria-controls="food-modal-faq-body-2"
+                                        >
+                                          Choose a ( All Flats or All Drums ) 5
+                                          pc
+                                          <small>(Choose 1 item.)</small>
+                                        </button>
+                                      </h2>
+                                      <div
+                                        id="food-modal-faq-body-2"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="food-modal-faq-header-2"
+                                        data-bs-parent="#food-modal-faq-body-2"
+                                      >
+                                        <div class="accordion-body">
+                                          <div
+                                            class="food-input-content food-input-content-2"
+                                          >
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel-3"
+                                                id="food-sel-3"
+                                              />
+                                              <label for="food-sel-3"
+                                                >BBQ</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel-4"
+                                                id="food-sel-4"
+                                              />
+                                              <label for="food-sel-4"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                      <h2
+                                        class="accordion-header"
+                                        id="food-modal-faq-header-3"
+                                      >
+                                        <button
+                                          class="accordion-button collapsed"
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target="#food-modal-faq-body-3"
+                                          aria-expanded="false"
+                                          aria-controls="food-modal-faq-body-3"
+                                        >
+                                          Choose of Dressing ( At most 1)
+                                          <small>(Choose 1 item.)</small>
+                                        </button>
+                                      </h2>
+                                      <div
+                                        id="food-modal-faq-body-3"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="food-modal-faq-header-3"
+                                        data-bs-parent="#food-modal-faq-body-3"
+                                      >
+                                        <div class="accordion-body">
+                                          <div
+                                            class="food-input-content food-input-content-3"
+                                          >
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel-5"
+                                                id="food-sel-5"
+                                              />
+                                              <label for="food-sel-5"
+                                                >BBQ</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel-6"
+                                                id="food-sel-6"
+                                              />
+                                              <label for="food-sel-6"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                      <h2
+                                        class="accordion-header"
+                                        id="food-modal-faq-header-4"
+                                      >
+                                        <button
+                                          class="accordion-button collapsed"
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target="#food-modal-faq-body-4"
+                                          aria-expanded="false"
+                                          aria-controls="food-modal-faq-body-4"
+                                        >
+                                          Choose extra Dressing /Sauce /Celery
+                                          <small>(Choose 1 item.)</small>
+                                        </button>
+                                      </h2>
+                                      <div
+                                        id="food-modal-faq-body-4"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="food-modal-faq-header-4"
+                                        data-bs-parent="#food-modal-faq-body-4"
+                                      >
+                                        <div class="accordion-body">
+                                          <div class="food-input-content">
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel-7"
+                                                id="food-sel-7"
+                                              />
+                                              <label for="food-sel-7"
+                                                >BBQ</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel-8"
+                                                id="food-sel-8"
+                                              />
+                                              <label for="food-sel-8"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="comment-about-food">
+                                  <textarea
+                                    name="comment"
+                                    id=""
+                                    cols="30"
+                                    rows="5"
+                                    class="food-comment"
+                                    placeholder="Spacial Comment"
+                                  ></textarea>
+                                </div>
+                                <div class="__food-price">
+                                  <i class="fa-solid fa-minus"></i>
+                                  <span>1</span>
+                                  <i class="fa-solid fa-plus"></i>
+                                </div>
+
+                                <button type="button">
+                                  Order Now
+                                  <span class="total-price-in-modal"
+                                    >$9.99</span
+                                  >
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      </li>
+                    </ul>
+                    <ul class="food-details">
+                      <li>
+                        <div class="food-details-left">
+                          <div class="food-details-left-img">
+                            <img src="img/Rectangle 93.png" alt="img" />
+                          </div>
+                          <div class="food-details-left-text">
+                            <h5>5 PC BUFFALO Wings</h5>
+                            <small
+                              >Served with some celery , 1 dressing & at most 1
+                              Flavors.</small
+                            >
+                            <h6>$6.57</h6>
+                          </div>                        
+                        </div>                      
                         <div class="food-details-right">
                           <div class="food-add-plus">
                             <i class="fa-solid fa-plus"></i>

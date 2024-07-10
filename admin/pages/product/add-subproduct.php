@@ -6,16 +6,26 @@ include "../../config.php";
 $obj = new Database();
 
 if (isset($_POST['submit'])) {
-    $title = $_POST['title'];
-    $para = $_POST['paragraph'];
-    $filename = $_FILES['image']['name'];
-    $tempfile = $_FILES['image']['tmp_name'];
-    $folder = "../../../uplode-image/" .$filename;
+    $sub_title = $_POST['sub_title'];
+    $sub_description = $_POST['sub_description'];
+    $items = $_POST['items'];
+    $items_price = $_POST['items_price'];
+    $max_number = $_POST['max_number'];
+    $min_number = $_POST['min_number'];
+    $required = isset($_POST['required']) ? $_POST['required'] : '';
+    $filename = $_FILES['sub_image']['name'];
+    $tempfile = $_FILES['sub_image']['tmp_name'];
+    $folder = "../../../upload-image/" .$filename;
 
-    $obj->insert('model_data', [
-        'title' => $title,
-        'paragraph' => $para,
-        'image' => $filename
+    $obj->insert('sub_product', [
+        'sub_title' => $sub_title,
+        'sub_description' => $sub_description,
+        'items' => json_encode($items),
+        'items_price' => json_encode($items_price),
+        'max_number' => $max_number,
+        'min_number' => $min_number,
+        'required' => $required,
+        'sub_image' => $filename
     ]);
     $result = $obj->getResult();
 
@@ -24,7 +34,7 @@ if (isset($_POST['submit'])) {
         ?>
         <script>
             alert("Data added successfully");
-            window.open('http://localhost/food/admin/pages/home/list_home_model.php', '_self');
+            window.open('http://localhost/foods/admin/pages/product/add-subproduct.php?id=<?= $row['id']; ?>', '_self');
         </script>
         <?php
     } else {
@@ -56,7 +66,7 @@ if (isset($_POST['submit'])) {
                   <div class="card-body">
                     <h4 class="card-title">Default form</h4>
                     
-                    <form class="forms-sample" action="add_home_model.php" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="add-subproduct.php" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Title</label>
                         <input type="text" name="sub_title" class="form-control" id="exampleInputUsername1" placeholder="title">
@@ -64,10 +74,6 @@ if (isset($_POST['submit'])) {
                       <div class="form-group">
                         <label for="exampleInputEmail1">Description</label>
                         <textarea  type="text" name="sub_description" class="form-control" id="exampleInputEmail1" rows="2"></textarea>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputUsername1">Price</label>
-                        <input type="number" name="sub_price" class="form-control" id="exampleInputUsername1" placeholder="Price">
                       </div>
                        <!-- Button to add new input group -->
                         <div>
@@ -79,8 +85,8 @@ if (isset($_POST['submit'])) {
                       <div id="input-container" class="input-container">
                               <!-- Existing static input group -->
                               <div class="input-group ">
-                                  <input type="text" placeholder="Item" name="items[]" class="input-box">
-                                  <input type="text" placeholder="Price" name="items_price[]" class="input-box">
+                                  <input type="text" placeholder="Item" name="items[]" class="form-control mr-2">
+                                  <input type="text" placeholder="Price" name="items_price[]" class="form-control mr-2">
                                   <button class="delete-btn" onclick="deleteInputBox(this.parentElement)">✖</button>
                               </div>
                       </div>
@@ -93,7 +99,7 @@ if (isset($_POST['submit'])) {
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Image</label>
-                        <input type="file" name="images[]" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="sub_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <div class="form-check">
                               <label class="form-check-label">
@@ -113,25 +119,33 @@ if (isset($_POST['submit'])) {
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th> # </th>
-                            <th> Title </th>
-                            <th> Paragraph </th>  
-                            <th> Image </th>
+                            <th> sub_title </th>
+                            <th> sub_description </th>  
+                            <th> items </th>  
+                            <th> items_price </th>  
+                            <th> max_number </th>  
+                            <th> min_number </th>  
+                            <th> required </th>  
+                            <th> sub_image </th>                           
                             <th> Action </th>
                           </tr>
                           </thead>
                     <?php 
                     $limit = 3;
-                    $obj->select('model_data', '*', null, null, null, $limit);
+                    $obj->select('sub_product', '*', null, null, null, $limit);
                     $result = $obj->getResult();
 
                     foreach ($result as $row) {
                   ?>
                   <tr>
-                    <td><?= $row['id']; ?></td>
-                    <td><?= substr($row['title'],0,10). '...'; ?></td>
-                    <td><?=  substr($row['paragraph'],0,10). '...'; ?></td>
-                    <td><img src="<?= "../../../uplode-image/" . $row['image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
+                    <td><?= substr($row['sub_title'],0,10). '...'; ?></td>
+                    <td><?=  substr($row['sub_description'],0,10). '...'; ?></td>
+                    <td><?=  $row['items']; ?></td>
+                    <td><?=  $row['items_price']; ?></td>
+                    <td><?=  $row['max_number']; ?></td>
+                    <td><?=  $row['min_number']; ?></td>
+                    <td><?=  $row['required']; ?></td>
+                    <td><img src="<?= "../../../upload-image/" . $row['sub_image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
                     <td>
                       <a href="./edit_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
                       <a onclick="return confirm('Are you sure?')" href="./delate_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>
@@ -157,13 +171,13 @@ if (isset($_POST['submit'])) {
         const inputBox = document.createElement('input');
         inputBox.type = 'text';
         inputBox.placeholder = 'Item';
-        inputBox.className = 'input-box';
+        inputBox.className = 'form-control mr-2';
         inputBox.name = 'items[]'; // Set the name attribute for form submission
 
         const priceBox = document.createElement('input');
         priceBox.type = 'text';
         priceBox.placeholder = 'Price';
-        priceBox.className = 'input-box';
+        priceBox.className = 'form-control mr-2';
         priceBox.name = 'items_price[]'; // Set the name attribute for form submission
 
         const deleteBtn = document.createElement('button');

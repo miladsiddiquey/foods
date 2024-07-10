@@ -3,31 +3,44 @@ include "../include/header.php";
 include "../../config.php";
 
 $obj = new Database();
+if (isset($_GET['id'])) {
+  $id = $_GET['id'];
+  // Fetch the specific record for the given ID
+  $obj->select('product_faq', '*', null, "id=$id", null, null);
+  $result = $obj->getResult();
+  if (count($result) > 0) {
+      $row = $result[0];
+  } else {
+      echo "No record found for the given ID";
+      exit;
+  }
+} else {
+  echo "ID parameter is missing";
+  exit;
+}
 
 if (isset($_POST['submit'])) {
-    $header_title = $_POST['header_title'];
     $product_name = $_POST['product_name'];
     $product_description = $_POST['product_description'];
     $price = $_POST['price'];
-    $filename = serialize($_FILES['images']['name']);
-    $tempfile = $_FILES['images']['tmp_name'];
-    $folder = "../../../uplode-image/" .$filename;
+    $product_filename = $_FILES['product_image']['name'];
+    $product_tempfile = $_FILES['product_image']['tmp_name'];
+    $product_folder = "../../../upload-image/" . $product_filename;
+    move_uploaded_file($product_tempfile, $product_folder);
 
     $obj->insert('food_menu', [
-        'header_title' => $header_title,
         'product_name' => $product_name,
         'product_description' => $product_description,
         'price' => $price,
-        'images' => $filename
+        'product_image' => $product_filename
     ]);
     $result = $obj->getResult();
 
     if ($result) {
-        move_uploaded_file($tempfile, $folder);
         ?>
         <script>
             alert("Data added successfully");
-            // window.open('http://localhost/food/admin/pages/product/add-product.php', '_self');
+            window.open('http://localhost/foods/admin/pages/product/add-product.php?id=<?= $row['id']; ?>', '_self');
         </script>
         <?php
     } else {
@@ -56,15 +69,7 @@ if (isset($_POST['submit'])) {
               <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <form class="forms-sample" action="add_home_model.php" method="post" enctype="multipart/form-data">
-                      <div class="form-group">
-                        <label for="exampleInputUsername1">Header Title</label>
-                        <input type="text" name="header_title" class="form-control" id="exampleInputUsername1" placeholder="Header Title">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Header Image</label>
-                        <input type="file" name="images[] " class="form-control" id="exampleInputPassword1" placeholder="Password">
-                      </div>
+                    <form class="forms-sample" action="add-product.php" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Product Name</label>
                         <input type="text" name="product_name" class="form-control" id="exampleInputUsername1" placeholder="Product Name">
@@ -79,7 +84,7 @@ if (isset($_POST['submit'])) {
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Product Image</label>
-                        <input type="file" name="images[]" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="product_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
                     </form>
@@ -95,15 +100,16 @@ if (isset($_POST['submit'])) {
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th> Title </th>
-                            <th> Paragraph </th>  
+                            <th> Product Name </th>  
+                            <th> description </th>  
+                            <th> price </th>  
                             <th> Image </th>
                             <th> Action </th>
                           </tr>
                           </thead>
                     <?php 
-                    $limit = 3;
-                    $obj->select('model_data', '*', null, null, null, $limit);
+                    $limit = 4;
+                    $obj->select('food_menu', '*', null, null, null, $limit);
                     $result = $obj->getResult();
 
                     
@@ -112,12 +118,13 @@ if (isset($_POST['submit'])) {
                   ?>
                   <tr>
                     <td><a href="./add-subproduct.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;">Configer</a></td>
-                    <td><?= substr($row['title'],0,40). '...'; ?></td>
-                    <td><?=  substr($row['paragraph'],0,40). '...'; ?></td>
-                    <td><img src="<?= "../../../uplode-image/" . $row['image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
+                    <td><?= substr($row['product_name'],0,40). '...'; ?></td>
+                    <td><?=  substr($row['product_description'],0,40). '...'; ?></td>
+                    <td><?= $row['price']; ?></td>
+                    <td><img src="<?= "../../../upload-image/" . $row['product_image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
                     <td>
-                      <a href="./edit_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
-                      <a onclick="return confirm('Are you sure?')" href="./delate_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>
+                      <a href="./edit-product.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
+                      <a onclick="return confirm('Are you sure?')" href="./delate-product.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>
                     </td>
                   </tr>
                   

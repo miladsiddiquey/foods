@@ -42,7 +42,17 @@ class Database {
             $table_columns = implode(', ', array_keys($params));
     
             // Escape and quote values
-            $table_values = "'" . implode("', '", array_map([$this->mysqli, 'real_escape_string'], $params)) . "'";
+            $table_values = array();
+            foreach ($params as $key => $value) {
+                if (is_array($value)) {
+                    // Handle arrays (e.g., JSON encode)
+                    $table_values[] = "'" . $this->mysqli->real_escape_string(json_encode($value)) . "'";
+                } else {
+                    // Handle regular strings
+                    $table_values[] = "'" . $this->mysqli->real_escape_string($value) . "'";
+                }
+            }
+            $table_values = implode(", ", $table_values);
     
             $sql = "INSERT INTO $table ($table_columns) VALUES ($table_values)";
             if ($this->mysqli->query($sql)) {

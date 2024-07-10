@@ -151,7 +151,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="../../pages/product/add-product.php">
+            <a class="nav-link" href="../../pages/product/add-prod-faq.php">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>

@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
         ?>
         <script>
             alert("Data updated successfully");
-            window.open('http://localhost/foods/admin/pages/home/list_home_model.php', '_self');
+            window.open('http://localhost/foods/admin/pages/home/list_home_model.php?id=<?php echo $row['id']; ?>', '_self');
         </script>
         <?php
     } else {
