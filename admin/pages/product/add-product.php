@@ -4,6 +4,7 @@ include "../../config.php";
 
 $obj = new Database();
 
+$faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_GET['id'] : '');
 
 if (isset($_POST['submit'])) {
     
@@ -29,7 +30,7 @@ if (isset($_POST['submit'])) {
         ?>
         <script>
             alert("Data added successfully");
-            window.open('http://localhost/foods/admin/pages/product/add-product.php', '_self');
+            window.open('http://localhost/foods/admin/pages/product/add-product.php?id=<?= $faq_id; ?>', '_self');
         </script>
         <?php
     } else {
@@ -40,12 +41,9 @@ if (isset($_POST['submit'])) {
         </script>
         <?php
     }
-    
-  
 }
 
 ?>
-
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
@@ -62,7 +60,7 @@ if (isset($_POST['submit'])) {
               <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <form class="forms-sample" action="add-product.php" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="add-product.php?id=<?= isset($_GET['id']) ? $_GET['id'] : ''; ?>" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Product Name</label>
                         <input type="hidden" name="faq_id" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
@@ -103,7 +101,7 @@ if (isset($_POST['submit'])) {
                           </thead>
                     <?php 
                     $limit = 4;
-                    $obj->select('food_menu', '*', null, null, null, $limit);
+                    $obj->select('food_menu', '*', null, "faq_id = $faq_id", null, $limit);
                     $result = $obj->getResult();
 
                     
