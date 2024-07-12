@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
     $para = $_POST['paragraph'];
     $filename = $_FILES['image']['name'];
     $tempfile = $_FILES['image']['tmp_name'];
-    $folder = "../../../uploade-images/" . $filename;
+    $folder = "../../../upload-image/" . $filename;
 
     $obj->insert('model_data', [
         'title' => $title,

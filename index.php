@@ -1,4 +1,8 @@
-<!-- @format -->
+<?php
+include "./admin/config.php";
+
+$obj = new Database();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,23 +63,20 @@
             class="fa-solid fa-xmark"
             onclick="parentElement.parentElement.parentElement.remove();"
           ></i>
-          <img src="img/1modalimg.jpg" alt="img" />
-          <h4>
-            You must bring your (1) matching cardholder Photo ID with the (2)
-            credit card used for the order. If you do not have these when you
-            come to pick-up, we cannot offer you the food, and you will be
-            offered a refund to the original payment instead. You will receive a
-            refund in 4-7 business days.
-          </h4>
-          <p>
-            We will submit all our proof of documents for any fraudulent
-            behavior, such as chargeback frauds, with criminal reports to the
-            local police, including all information related to you and the
-            order. This includes, and not limited to, any recording or
-            photograph of you at the time of pick-up, provided proof at the time
-            of pick-up, receipt, and any information given to us in-person and
-            online.
-          </p>
+
+          <?php
+            $obj->select('model_data', '*', null, null, null, null);
+            $result = $obj->getResult();
+           
+            foreach ($result as $row) {
+          ?>
+         <img src="<?= "./upload-image/" . $row['image']; ?>" alt="img" />
+          <h4><?= $row['title'] ?></h4>
+          <p><?= $row['paragraph'] ?></p>
+          
+         <?php } ?>
+
+          
         </div>
       </div>
     </div>

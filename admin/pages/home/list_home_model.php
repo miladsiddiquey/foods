@@ -46,7 +46,7 @@
                     <td><?= $row['id']; ?></td>
                     <td><?= substr($row['title'],0,40). '...'; ?></td>
                     <td><?=  substr($row['paragraph'],0,40). '...'; ?></td>
-                    <td><img src="<?= "../../../uplode-image/" . $row['image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
+                    <td><img src="<?= "../../../upload-image/" . $row['image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
                     <td>
                       <a href="./edit_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
                       <a onclick="return confirm('Are you sure?')" href="./delate_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>

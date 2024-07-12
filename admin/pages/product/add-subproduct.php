@@ -2,10 +2,12 @@
 include "../include/header.php";
 include "../../config.php";
 
-
 $obj = new Database();
 
+$food_id = isset($_POST['food_id']) ? $_POST['food_id'] : (isset($_GET['id']) ? $_GET['id'] : '');
+
 if (isset($_POST['submit'])) {
+    $food_id = $_POST['food_id'];
     $sub_title = $_POST['sub_title'];
     $sub_description = $_POST['sub_description'];
     $items = $_POST['items'];
@@ -18,6 +20,7 @@ if (isset($_POST['submit'])) {
     $folder = "../../../upload-image/" .$filename;
 
     $obj->insert('sub_product', [
+        'food_id' => $food_id,
         'sub_title' => $sub_title,
         'sub_description' => $sub_description,
         'items' => json_encode($items),
@@ -34,7 +37,7 @@ if (isset($_POST['submit'])) {
         ?>
         <script>
             alert("Data added successfully");
-            window.open('http://localhost/foods/admin/pages/product/add-subproduct.php', '_self');
+            window.open('http://localhost/foods/admin/pages/product/add-subproduct.php?id=<?= $food_id; ?>', '_self');
         </script>
         <?php
     } else {
@@ -53,12 +56,14 @@ if (isset($_POST['submit'])) {
           <div class="content-wrapper">
             <div class="page-header">
               <h3 class="page-title"> Add sub product </h3>
-              <nav aria-label="breadcrumb">
+              <!-- <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Forms</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Form elements</li>
                 </ol>
-              </nav>
+              </nav> -->
+              <button class="btn btn-primary" onclick="window.history.back()">Go Back</button>
+              
             </div>
             <div class="row">
               <div class="col-md-4 grid-margin stretch-card">
@@ -66,9 +71,10 @@ if (isset($_POST['submit'])) {
                   <div class="card-body">
                     <h4 class="card-title">Default form</h4>
                     
-                    <form class="forms-sample" action="add-subproduct.php" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="add-subproduct.php?id=<?= isset($_GET['id']) ? $_GET['id'] : ''; ?>" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Title</label>
+                        <input type="hidden" name="food_id" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
                         <input type="text" name="sub_title" class="form-control" id="exampleInputUsername1" placeholder="title">
                       </div>
                       <div class="form-group">
@@ -131,8 +137,9 @@ if (isset($_POST['submit'])) {
                           </tr>
                           </thead>
                     <?php 
-                    $limit = 3;
-                    $obj->select('sub_product', '*', null, null, null, $limit);
+                    
+                    $limit = 4;
+                    $obj->select('sub_product', "*", null, "food_id = $food_id", null, $limit);
                     $result = $obj->getResult();
 
                     foreach ($result as $row) {
@@ -147,8 +154,8 @@ if (isset($_POST['submit'])) {
                     <td><?=  $row['required']; ?></td>
                     <td><img src="<?= "../../../upload-image/" . $row['sub_image']; ?>" style="width: 35px; height: 35px; border-radius: 0;" alt=""></td>
                     <td>
-                      <a href="./edit_home_model.php?id=<?= $row['food_id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
-                      <a onclick="return confirm('Are you sure?')" href="./delate_home_model.php?id=<?= $row['food_id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>
+                      <a href="./edit_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-right: 10px;"><i class="mdi mdi-lead-pencil"></i></a>
+                      <a onclick="return confirm('Are you sure?')" href="./delate_home_model.php?id=<?= $row['id']; ?>" style="font-size: 20px; padding-left: 10px;"><i class="mdi mdi-delete"></i></a>
                     </td>
                   </tr>
                   

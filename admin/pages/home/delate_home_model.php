@@ -19,13 +19,13 @@ if ($id > 0) {
 
         if ($deleteResult) {
             // Delete the image file from the server
-            if (file_exists("../../../uploade-images/".$image)) {
-                unlink("../../../uploade-images/".$image);
+            if (file_exists("../../../upload-image/".$image)) {
+                unlink("../../../upload-image/".$image);
             }
             ?>
             <script>
                 alert("Data deleted successfully");
-                window.open('http://localhost/food/admin/pages/home/list_home_model.php', '_self');
+                window.open('http://localhost/foods/admin/pages/home/list_home_model.php', '_self');
             </script>
             <?php
         } else {
