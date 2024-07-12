@@ -1,11 +1,8 @@
+
 <?php
 include "./admin/config.php";
-
 $obj = new Database();
-$faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_GET['id'] : '');
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,9 +25,9 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
 
   <body>
     <!-- preloader  -->
-    <div class="preloader">
+    <!-- <div class="preloader">
       <img src="icon/loader.gif" alt="loader" />
-    </div>
+    </div> -->
 
     <!-- preloader end -->
 
@@ -169,7 +166,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
 
 
 
-    <div class="login-modal active">
+    <!-- <div class="login-modal active">
       <div class="login-modal-box">
         <div class="login-modal-box-header">
           <h5>Login</h5>
@@ -198,220 +195,340 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
           <button type="submit">Login</button>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- ==================== header end======================== -->
 
     <section class="order-food">
-  <div class="container">
-    <div class="order-food-content">
-      <div class="order-food-left">
-        <div class="order-food-left-title">
-          <h3>Our Food Menu</h3>
-          <button type="button" class="add-more-btn">Add On Food</button>
+      <div class="container">
+        <div class="order-food-content">
+          <div class="order-food-left">
+            <div class="order-food-left-title">
+              <h3>Our Food Menu</h3>
+              <button type="button" class="add-more-btn">Add On Food</button>
 
-          <div class="add-more-food-modal">
-            <div class="add-more-food-modal-box">
-              <div class="add-more-food-modal-box-header">
-                <h5>Food Details</h5>
-                <i class="fa-solid fa-xmark"></i>
-              </div>
-              <div class="add-more-food-modal-box-body">
-                <ul>
-                  <li class="d-flex align-items-center justify-content-between">
-                    <div class="food-details-left">
-                      <div class="food-details-left-img">
-                        <img src="img/Rectangle 93.png" alt="img" />
-                      </div>
-                      <div class="food-details-left-text">
-                        <h5 class="mb-1">5 PC BUFFALO Wings</h5>
-                        <h6>$6.57</h6>
-                      </div>
-                    </div>
-                    <div class="food-details-right">
-                      <div class="food-add-plus">
-                        <i class="fa-solid fa-plus"></i>
-                      </div>
-                    </div>
-                  </li>
+              <div class="add-more-food-modal">
+                <div class="add-more-food-modal-box">
+                  <div class="add-more-food-modal-box-header">
+                    <h5>Food Details</h5>
+                    <i class="fa-solid fa-xmark"></i>
+                  </div>
+                  <div class="add-more-food-modal-box-body">
+                    <ul>
+                      <li
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="food-details-left">
+                          <div class="food-details-left-img">
+                            <img src="img/Rectangle 93.png" alt="img" />
+                          </div>
+                          <div class="food-details-left-text">
+                            <h5 class="mb-1">5 PC BUFFALO Wings</h5>
 
-                  <!-- Repeat the above <li> block for other items -->
-
-                </ul>
-                <div class="confirm-btn">
-                  <button>Confirm Add</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-          <!-- faq start  -->
-          <?php 
-            $obj->select('product_faq', '*', null, null, null, null);
-            $faqResult = $obj->getResult();
-
-            foreach ($faqResult as $faqRow) {
-          ?>
-
-          <div class="accordion-item" style="border-top: 1px solid var(--text-color)">
-            <h2 class="accordion-header" id="heading<?= $faqRow['id'] ?>">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapse<?= $faqRow['id'] ?>"
-                aria-expanded="false"
-                aria-controls="collapse<?= $faqRow['id'] ?>"
-              >
-                <div class="faq-title">
-                  <img src="<?= "./upload-image/" . $faqRow['header_image']; ?>" alt="img" />
-                  <h4><?= $faqRow['header_title'] ?></h4>
-                </div>
-              </button>
-            </h2>
-            <div
-              id="collapse<?= $faqRow['id'] ?>"
-              class="accordion-collapse collapse"
-              aria-labelledby="heading<?= $faqRow['id'] ?>"
-              data-bs-parent="#accordionFlushExample"
-            >
-           
-            <!-- sub category start -->
-            <?php 
-              $faq_id = $faqRow['id'];
-              $obj->select('food_menu', '*', null, "faq_id = $faq_id", null, null);
-              $foodResult = $obj->getResult();
-
-              foreach ($foodResult as $foodRow) {
-            ?>
-
-              <div class="accordion-body">
-                <ul class="food-details">
-                  <li>
-                    <div class="food-details-left">
-                      <div class="food-details-left-img">
-                        <img src="<?= "./upload-image/" . $foodRow['product_image']; ?>" alt="img" />
-                      </div>
-                      <div class="food-details-left-text">
-                        <h5><?= $foodRow['product_name'] ?></h5>
-                        <small><?= $foodRow['product_description'] ?></small>
-                        <h6>$<?= $foodRow['price'] ?></h6>
-                      </div>                        
-                    </div>                      
-                    <div class="food-details-right">
-                      <div class="food-add-plus">
-                        <i class="fa-solid fa-plus"></i>
-                      </div>
-                      <button class="view-product simple-modal-btn" date-info="view<?= $foodRow['id'] ?>">
-                        View Product
-                      </button>
-                    </div>
-                
-                    <div class="simple-modal" id="view<?= $foodRow['id'] ?>">
-                      <div class="simple-modal-box">
-                        <div class="simple-modal-header">
-                          <h5>Food Details</h5>
-                          <i class="fa-solid fa-xmark"></i>
-                        </div>
-                        <div class="simple-modal-body">
-                          <div class="add-more-item-modal">
-                            <img src="<?= "./upload-image/" . $foodRow['product_image']; ?>" alt="img" />
-
-                            <div class="add-more-modal-header">
-                              <h4><?= $foodRow['product_name'] ?></h4>
-                              <h5>$<?= $foodRow['price'] ?></h5>
-                            </div>
-                            <p><?= $foodRow['product_description'] ?></p>
-
-                            <!-- sub sub faq -->
-                            <?php
-                              $food_id = $foodRow['id'];
-                              $obj->select('sub_product', '*', null, "food_id = $food_id", null, null);
-                              $subFoodResult = $obj->getResult();
-
-                              foreach ($subFoodResult as $subFoodRow) {
-                                $items = json_decode($subFoodRow['items'], true);
-                            ?>
-
-                            <div class="food-modal-faq">
-                              <div class="accordion accordion-flush" id="food-modal-faq-<?= $subFoodRow['id'] ?>">
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header" id="food-modal-faq-header-<?= $subFoodRow['id'] ?>">
-                                    <button
-                                      class="accordion-button collapsed"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#food-modal-faq-body-<?= $subFoodRow['id'] ?>"
-                                      aria-expanded="false"
-                                      aria-controls="food-modal-faq-body-<?= $subFoodRow['id'] ?>"
-                                    >
-                                      <?= $subFoodRow['sub_title'] ?>
-                                      <span><?= $subFoodRow['required'] ? 'Required' : 'Optional' ?></span>
-                                      <small>(Choose 1 item.)</small>
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="food-modal-faq-body-<?= $subFoodRow['id'] ?>"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="food-modal-faq-header-<?= $subFoodRow['id'] ?>"
-                                    data-bs-parent="#food-modal-faq-<?= $subFoodRow['id'] ?>"
-                                  >
-                                    <div class="accordion-body">
-                                      <div class="food-input-content food-input-content-1">
-                                        <?php foreach ($items as $index => $item) { ?>
-                                          <div class="food-input-box">
-                                            <input 
-                                              type="checkbox" 
-                                              name="food-sel[]" 
-                                              value="<?= htmlspecialchars($item) ?>" 
-                                            />
-                                            <label><?= htmlspecialchars($item) ?></label>
-                                          </div>
-                                        <?php } ?>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <?php } ?>
-
-                            <div class="comment-about-food">
-                              <textarea
-                                name="comment"
-                                id=""
-                                cols="30"
-                                rows="5"
-                                class="food-comment"
-                                placeholder="Special Comment"
-                              ></textarea>
-                            </div>
-                            <div class="__food-price">
-                              <i class="fa-solid fa-minus"></i>
-                              <span>1</span>
-                              <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <button type="button">
-                              Order Now
-                              <span class="total-price-in-modal">$<?= $foodRow['price'];?></span>
-                            </button>
+                            <h6>$6.57</h6>
                           </div>
                         </div>
-                      </div>
+                        <div class="food-details-right">
+                          <div class="food-add-plus">
+                            <i class="fa-solid fa-plus"></i>
+                          </div>
+                        </div>
+                      </li>
+
+                      <li
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="food-details-left">
+                          <div class="food-details-left-img">
+                            <img src="img/Rectangle 93.png" alt="img" />
+                          </div>
+                          <div class="food-details-left-text">
+                            <h5 class="mb-1">5 PC BUFFALO Wings</h5>
+
+                            <h6>$6.57</h6>
+                          </div>
+                        </div>
+                        <div class="food-details-right">
+                          <div class="food-add-plus">
+                            <i class="fa-solid fa-plus"></i>
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="food-details-left">
+                          <div class="food-details-left-img">
+                            <img src="img/Rectangle 93.png" alt="img" />
+                          </div>
+                          <div class="food-details-left-text">
+                            <h5 class="mb-1">5 PC BUFFALO Wings</h5>
+
+                            <h6>$6.57</h6>
+                          </div>
+                        </div>
+                        <div class="food-details-right">
+                          <div class="food-add-plus">
+                            <i class="fa-solid fa-plus"></i>
+                          </div>
+                        </div>
+                      </li>
+                      <li
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="food-details-left">
+                          <div class="food-details-left-img">
+                            <img src="img/Rectangle 93.png" alt="img" />
+                          </div>
+                          <div class="food-details-left-text">
+                            <h5 class="mb-1">5 PC BUFFALO Wings</h5>
+
+                            <h6>$6.57</h6>
+                          </div>
+                        </div>
+                        <div class="food-details-right">
+                          <div class="food-add-plus">
+                            <i class="fa-solid fa-plus"></i>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="confirm-btn">
+                      <button>Confirm Add</button>
                     </div>
-                  </li>
-                </ul>
+                  </div>
+                </div>
               </div>
+            </div>
+
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <!-- faq start  -->
+              <?php 
+                $limit = 4;
+                $obj->select('product_faq', "*", null, null, null, $limit);
+                $result = $obj->getResult();  
+
+                foreach ($result as $row) {
+              ?>
+
+              <div
+                class="accordion-item"
+                style="border-top: 1px solid var(--text-color)"
+              >
+                <h2 class="accordion-header" id="heading<?= $row['id'] ?>">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse<?= $row['id'] ?>"
+                    aria-expanded="false"
+                    aria-controls="collapse<?= $row['id'] ?>"
+                  >
+                    <div class="faq-title">
+                      <img src="<?= "./upload-image/" . $row['header_image']; ?>" alt="img" />
+                      <h4><?= $row['header_title'] ?></h4>
+                    </div>
+                  </button>
+                </h2>
+                <div
+                  id="collapse<?= $row['id'] ?>"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="heading<?= $row['id'] ?>"
+                  data-bs-parent="#accordionFlushExample"
+                >
+               
+                <?php 
+                
+                $obj->select('food_menu', "*", null, null, null, null);
+                $result = $obj->getResult();  
+
+                foreach ($result as $row) {
+              ?>
+                <!-- sub category start -->
+               
+                  <div class="accordion-body">
+                    <ul class="food-details">
+                      <li>
+                        <div class="food-details-left">
+                          <div class="food-details-left-img">
+                            <img src="img/Rectangle 93.png" alt="img" />
+                          </div>
+                          <div class="food-details-left-text">
+                            <h5><?= $row['product_name'] ?></h5>
+                            <small><?= $row['product_description'] ?></small>
+                            <h6>$<?= $row['price'] ?></h6>
+                          </div>                        
+                        </div>                      
+                        <div class="food-details-right">
+                          <div class="food-add-plus">
+                            <i class="fa-solid fa-plus"></i>
+                          </div>
+
+                          <button
+                            class="view-product simple-modal-btn"
+                            date-info="food-modal-main-1"
+                          >
+                            View Product
+                          </button>
+                        </div>
+                    
+                        <div class="simple-modal" id="food-modal-main-1">
+                          <div class="simple-modal-box">
+                            <div class="simple-modal-header">
+                              <h5>Food Details</h5>
+                              <i class="fa-solid fa-xmark"></i>
+                            </div>
+
+                            <div class="simple-modal-body">
+                              <div class="add-more-item-modal">
+                                <img src="img/Rectangle 93.png" alt="img" />
+
+                                <div class="add-more-modal-header">
+                                  <h4><?= $row['product_name'] ?></h4>
+                                  <h5>$<?= $row['price'] ?></h5>
+                                </div>
+                                <p> <?= $row['product_description'] ?></p>
+
+                                
+
+                                <!-- sub sub faq -->
+                                <?php 
+                
+                                  $obj->select('sub_product', "*", null, null, null, null);
+                                  $result = $obj->getResult();  
+
+                                  foreach ($result as $row) {
+                                ?>
+
+
+                                <div class="food-modal-faq">
+                                  <div
+                                    class="accordion accordion-flush"
+                                    id="food-modal-faq"
+                                  >
+                                    <div class="accordion-item">
+                                      <h2
+                                        class="accordion-header"
+                                        id="food-modal-faq-header-1"
+                                      >
+                                        <button
+                                          class="accordion-button collapsed"
+                                          type="button"
+                                          data-bs-toggle="collapse"
+                                          data-bs-target="#food-modal-faq-body-1"
+                                          aria-expanded="false"
+                                          aria-controls="food-modal-faq-body-1"
+                                        >
+                                          Select your wing ( flavor 1)
+                                          <span>Required</span>
+                                          <small>(Choose 1 item.)</small>
+                                        </button>
+                                      </h2>
+                                      <div
+                                        id="food-modal-faq-body-1"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="food-modal-faq-header-1"
+                                        data-bs-parent="#food-modal-faq-body-1"
+                                      >
+                                        <div class="accordion-body">
+                                          <div
+                                            class="food-input-content food-input-content-1"
+                                          >
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-1"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-1"
+                                                >BBQ</label
+                                              >
+                                            </div>
+                                            <!-- <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-2"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-2"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-3"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-3"
+                                                >Half Baked</label
+                                              >
+                                            </div>
+                                            <div class="food-input-box">
+                                              <input
+                                                type="checkbox"
+                                                name="food-sel"
+                                                id="food-sel-4"
+                                                value="10"
+                                              />
+                                              <label for="food-sel-4"
+                                                >Half Baked</label
+                                              >
+                                            </div> -->
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+
+
+                                  </div>
+                                </div>
+                                <div class="comment-about-food">
+                                  <textarea
+                                    name="comment"
+                                    id=""
+                                    cols="30"
+                                    rows="5"
+                                    class="food-comment"
+                                    placeholder="Spacial Comment"
+                                  ></textarea>
+                                </div>
+                                <div class="__food-price">
+                                  <i class="fa-solid fa-minus"></i>
+                                  <span>1</span>
+                                  <i class="fa-solid fa-plus"></i>
+                                </div>
+
+                                <button type="button">
+                                  Order Now
+                                  <span class="total-price-in-modal"
+                                    >$9.99</span
+                                  >
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                    
+                  </div>
+                </div>
+              </div>
+
               <?php } ?>
+              <?php } ?>
+              <?php } ?>
+              
+
             </div>
           </div>
-          <?php } ?>
-        </div>
-      </div>
-
-      <div class="order-food-right">
+          <div class="order-food-right">
             <div class="your-order-box">
               <div class="your-order-box-header">
                 <h4>Your Order</h4>
@@ -479,10 +596,9 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
               </div>
             </div>
           </div>
-    </div>
-  </div>
-</section>
-
+        </div>
+      </div>
+    </section>
 
     <!-- ================== add item modal =================== -->
 
