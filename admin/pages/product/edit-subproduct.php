@@ -6,6 +6,22 @@ $obj = new Database();
 
 $food_id = isset($_POST['food_id']) ? $_POST['food_id'] : (isset($_GET['id']) ? $_GET['id'] : '');
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    // Fetch the specific record for the given ID
+    $obj->select('sub_product', '*', null, "id=$id", null, null);
+    $result = $obj->getResult();
+    if (count($result) > 0) {
+        $row = $result[0];
+    } else {
+        echo "No record found for the given ID";
+        exit;
+    }
+} else {
+    echo "ID parameter is missing";
+    exit;
+}
+
 if (isset($_POST['submit'])) {
     $food_id = $_POST['food_id'];
     $sub_title = $_POST['sub_title'];
@@ -51,8 +67,8 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-        <!-- partial -->
-        <div class="main-panel">
+<!-- partial -->
+<div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
               <h3 class="page-title"> Add sub product </h3>
@@ -71,15 +87,15 @@ if (isset($_POST['submit'])) {
                   <div class="card-body">
                     <h4 class="card-title">Default form</h4>
                     
-                    <form class="forms-sample" action="add-subproduct.php?id=<?= isset($_GET['id']) ? $_GET['id'] : ''; ?>" method="post" >
+                    <form class="forms-sample" action="edit-subproduct.php?id=<?= isset($_GET['id']) ? $_GET['id'] : ''; ?>" method="post" >
                       <div class="form-group">
                         <label for="exampleInputUsername1">Title</label>
                         <input type="hidden" name="food_id" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
-                        <input type="text" name="sub_title" class="form-control" id="exampleInputUsername1" placeholder="title">
+                        <input type="text" name="sub_title" class="form-control" value="<?php echo $row['sub_title'] ?>" id="exampleInputUsername1" placeholder="title">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Description</label>
-                        <textarea  type="text" name="sub_description" class="form-control" id="exampleInputEmail1" rows="2"></textarea>
+                        <input  type="text" name="sub_description" class="form-control" value="<?php echo $row['sub_description'] ?>" id="exampleInputEmail1" rows="2">
                       </div>
                        <!-- Button to add new input group -->
                         <div>
@@ -91,16 +107,16 @@ if (isset($_POST['submit'])) {
                       <div id="input-container" class="input-container">
                               <!-- Existing static input group -->
                               <div class="input-group ">
-                                  <input type="text" placeholder="Item" name="items[]" class="form-control mr-2">
-                                  <input type="text" placeholder="Price" name="items_price[]" class="form-control mr-2">
+                                  <input type="text" placeholder="Item" name="items[]" value="<?php echo $row['items'] ?>" class="form-control mr-2">
+                                  <input type="text" placeholder="Price" name="items_price[]" value="<?php echo $row['price'] ?>" class="form-control mr-2">
                                   <button class="delete-btn" onclick="deleteInputBox(this.parentElement)">✖</button>
                               </div>
                       </div>
                       <div class="form-group mt-3">
                         <label for="exampleInputUsername1">Select Maximum & Minimum Item</label>
                         <div class="d-flex">
-                        <input type="number" name="max_number" class="form-control mr-2" id="exampleInputUsername1" placeholder="max number">
-                        <input type="number" name="min_number" class="form-control " id="exampleInputUsername1" placeholder="min number">
+                        <input type="number" name="max_number" value="<?php echo $row['max_number'] ?>" class="form-control mr-2" id="exampleInputUsername1" placeholder="max number">
+                        <input type="number" name="min_number" value="<?php echo $row['min_number'] ?>" class="form-control " id="exampleInputUsername1" placeholder="min number">
                         </div>
                       </div>
                       <!-- <div class="form-group">
@@ -179,12 +195,14 @@ if (isset($_POST['submit'])) {
         inputBox.type = 'text';
         inputBox.placeholder = 'Item';
         inputBox.className = 'form-control mr-2';
+        inputBox.value = '<?php echo $row['items'] ?>';
         inputBox.name = 'items[]'; // Set the name attribute for form submission
 
         const priceBox = document.createElement('input');
         priceBox.type = 'text';
         priceBox.placeholder = 'Price';
         priceBox.className = 'form-control mr-2';
+        priceBox.value = '<?php echo $row['items_price'] ?>';
         priceBox.name = 'items_price[]'; // Set the name attribute for form submission
 
         const deleteBtn = document.createElement('button');
@@ -207,5 +225,4 @@ if (isset($_POST['submit'])) {
 </script> 
                    
                     
-<?php include '../include/footer.php'?>          
-         
+<?php include '../include/footer.php'?>    

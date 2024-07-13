@@ -279,16 +279,17 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
             >
            
             <!-- sub category start -->
-            <?php 
+        
+
+              <div class="accordion-body">
+                <ul class="food-details">
+                <?php 
               $faq_id = $faqRow['id'];
               $obj->select('food_menu', '*', null, "faq_id = $faq_id", null, null);
               $foodResult = $obj->getResult();
 
               foreach ($foodResult as $foodRow) {
             ?>
-
-              <div class="accordion-body">
-                <ul class="food-details">
                   <li>
                     <div class="food-details-left">
                       <div class="food-details-left-img">
@@ -402,9 +403,10 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                       </div>
                     </div>
                   </li>
+                  <?php } ?>
                 </ul>
               </div>
-              <?php } ?>
+         
             </div>
           </div>
           <?php } ?>

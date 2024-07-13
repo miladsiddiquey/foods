@@ -5,17 +5,17 @@ $obj = new Database();
 $id = (int)$_GET['id'];
 if ($id > 0) {
     
-    $obj->select('food_menu', '*', null, "id='$id'", null, null);
+    $obj->select('product_faq', '*', null, "id='$id'", null, null);
     $result = $obj->getResult();
 
     if ($result && count($result) > 0) {
         $row = $result[0];
-        $image = $row['product_image'];
+        $image = $row['image'];
 
-        $deleteQuery = "DELETE FROM food_menu WHERE id='$id'";
+        $deleteQuery = "DELETE FROM product_faq WHERE id='$id'";
 
         // Delete the record from the database
-        $deleteResult = $obj->delete('food_menu', "id='$id'");
+        $deleteResult = $obj->delete('product_faq', "id='$id'");
 
         if ($deleteResult) {
             // Delete the image file from the server
@@ -25,7 +25,7 @@ if ($id > 0) {
             ?>
             <script>
                 alert("Data deleted successfully");
-                window.open('http://localhost/foods/admin/pages/product/add-product.php?id=<?= $faq_id; ?>', '_self');
+                window.open('http://localhost/foods/admin/pages/product/add-prod-faq.php', '_self');
             </script>
             <?php
         } else {

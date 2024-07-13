@@ -4,6 +4,22 @@ include "../../config.php";
 
 $obj = new Database();
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    // Fetch the specific record for the given ID
+    $obj->select('product_faq', '*', null, "id=$id", null, null);
+    $result = $obj->getResult();
+    if (count($result) > 0) {
+        $row = $result[0];
+    } else {
+        echo "No record found for the given ID";
+        exit;
+    }
+} else {
+    echo "ID parameter is missing";
+    exit;
+}
+
 if (isset($_POST['submit'])) {
     $header_title = $_POST['header_title'];
     $filename = $_FILES['header_image']['name'];
@@ -34,39 +50,38 @@ if (isset($_POST['submit'])) {
  
 }
 }
-
 ?>
-        <!-- partial -->
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="page-header">
-              <h3 class="page-title"> Product Heading </h3>
-              <nav aria-label="breadcrumb">
+<!-- partial -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+    <h3 class="page-title"> Product Heading </h3>
+      <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Forms</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Form elements</li>
                 </ol>
-              </nav>
-            </div>
-            <div class="row">
-              <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <form class="forms-sample" action="add-prod-faq.php" method="post" enctype="multipart/form-data">
+     </nav>
+    </div>
+    <div class="row">
+      <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <form class="forms-sample" action="edit-prod-faq.php?=<?php echo $row['id']; ?>" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Header Title</label>
-                        <input type="text" name="header_title" class="form-control" id="exampleInputUsername1"  placeholder="Header Title">
+                        <input type="text" name="header_title" value="<?php echo $row['header_title']; ?>" class="form-control" id="exampleInputUsername1"  placeholder="Header Title">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Header Image</label>
-                        <input type="file" name="header_image" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="header_image" value="<?php echo $row['header_image']; ?>"  class="form-control" id="exampleInputPassword1" placeholder="Password">
                       </div>
                       <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-8 grid-margin stretch-card">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">List Product</h4>   
@@ -105,7 +120,6 @@ if (isset($_POST['submit'])) {
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
-        
-          <?php include '../include/footer.php' ?>
+  </div>
+  <?php include '../include/footer.php'?>
