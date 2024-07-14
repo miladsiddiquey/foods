@@ -65,7 +65,7 @@ if (isset($_POST['submit'])) {
                       </div>
                       <div class="form-group">
                         <label for="exampleInputPassword1">Image</label>
-                        <input type="file" name="image" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="file" name="image" class="form-control" id="exampleInputPassword1">
                       </div>
                       <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
                     </form>

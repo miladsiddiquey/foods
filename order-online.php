@@ -1,4 +1,5 @@
 <?php
+ session_start();
 include "./admin/config.php";
 
 $obj = new Database();
@@ -309,7 +310,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                         View Product
                       </button>
                     </div>
-                
+
                     <div class="simple-modal" id="view<?= $foodRow['id'] ?>">
                       <div class="simple-modal-box">
                         <div class="simple-modal-header">
@@ -317,12 +318,19 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                           <i class="fa-solid fa-xmark"></i>
                         </div>
                         <div class="simple-modal-body">
-                          <div class="add-more-item-modal">
+
+
+
+                          <form class="add-more-item-modal product_data" action ="add_to_cart.php"  method="POST">
                             <img src="<?= "./upload-image/" . $foodRow['product_image']; ?>" alt="img" />
+                            <!-- <input type="file" name="cartImage" class="form-control" id="exampleInputPassword1"> -->
 
                             <div class="add-more-modal-header">
                               <h4><?= $foodRow['product_name'] ?></h4>
-                              <h5>$<?= $foodRow['price'] ?></h5>
+                              <input type="hidden" name="cart_product_name" value="<?= $foodRow['product_name'] ?>">
+                              
+                              <h5 >$<?= $foodRow['price'] ?></h5>
+                              <input type="hidden" name="cart_product_price" value="<?= $foodRow['price'] ?>">
                             </div>
                             <p><?= $foodRow['product_description'] ?></p>
 
@@ -347,11 +355,13 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                                       data-bs-target="#food-modal-faq-body-<?= $subFoodRow['id'] ?>"
                                       aria-expanded="false"
                                       aria-controls="food-modal-faq-body-<?= $subFoodRow['id'] ?>"
+                                      
                                     >
                                       <?= $subFoodRow['sub_title'] ?>
                                       <span><?= $subFoodRow['required'] ? 'Required' : 'Optional' ?></span>
                                       <small>(Choose 1 item.)</small>
                                     </button>
+                                    <input type="hidden" name ="cart_sub_title" value="<?= $subFoodRow['sub_title'] ?>">
                                   </h2>
                                   <div
                                     id="food-modal-faq-body-<?= $subFoodRow['id'] ?>"
@@ -363,11 +373,8 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                                       <div class="food-input-content food-input-content-1">
                                         <?php foreach ($items as $index => $item) { ?>
                                           <div class="food-input-box">
-                                            <input 
-                                              type="checkbox" 
-                                              name="food-sel[]" 
-                                              value="<?= htmlspecialchars($item) ?>" 
-                                            />
+                                          <input type="checkbox" name="cart_food-sel[]" value="<?= htmlspecialchars($item) ?>">
+                                            
                                             <label><?= htmlspecialchars($item) ?></label>
                                           </div>
                                         <?php } ?>
@@ -390,18 +397,23 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                               ></textarea>
                             </div>
                             <div class="__food-price">
-                              <i class="fa-solid fa-minus"></i>
-                              <span>1</span>
-                              <i class="fa-solid fa-plus"></i>
+                                <i class="fa-solid fa-minus decrement_btn"></i>
+                                <input type="text" name="quantity" class="form-control input-qty bg-white text-center" value="1">
+                                <i class="fa-solid fa-plus increment_btn"></i>
                             </div>
-                            <button type="button">
+                            <button type="submit"   name="order">
                               Order Now
                               <span class="total-price-in-modal">$<?= $foodRow['price'];?></span>
                             </button>
-                          </div>
+                          </form>
+
+
                         </div>
                       </div>
                     </div>
+
+                    
+
                   </li>
                   <?php } ?>
                 </ul>
@@ -424,41 +436,35 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
               </div>
 
               <div class="your-order-box-content">
-                <div class="your-order-card">
-                  <div class="your-order-card-left">
-                    <h6>No Food Category</h6>
-                    <h5>No Food</h5>
-                    <h4>$00.00</h4>
-                  </div>
-                  <div class="your-order-card-right">
-                    <div class="your-order-card-inc-dec">
-                      <i class="fa-solid fa-plus"></i>
-                      <span>1</span>
-                      <i class="fa-solid fa-minus"></i>
+
+              <?php
+               
+                if(isset($_SESSION['cart'])) {
+                    foreach ($_SESSION['cart'] as $key => $value) {
+                ?>
+                    <div class="your-order-card">
+                        <div class="your-order-card-left">
+                            <!-- <h6>No Food Category</h6> -->
+                            <h5><?php echo $value['pName']; ?></h5>
+                            <h4>$<?php echo $value['price']; ?></h4>
+                        </div>
+                        <div class="your-order-card-right">
+                            <div class="your-order-card-inc-dec">
+                                <i class="fa-solid fa-plus"></i>
+                                <span><?php echo $value['fQuentity']; ?></span> 
+                                <i class="fa-solid fa-minus"></i>
+                            </div>
+                            <button class="btn-delete">
+                                <i class="fa-solid fa-trash-can"></i> Remove
+                            </button>
+                        </div>
                     </div>
-                    <button class="btn-delete">
-                      <i class="fa-solid fa-trash-can"></i> Remove
-                    </button>
-                  </div>
-                </div>
-                <div class="your-order-card">
-                  <div class="your-order-card-left">
-                    <h6>No Food Category</h6>
-                    <h5>No Food</h5>
-                    <h4>$00.00</h4>
-                  </div>
-                  <div class="your-order-card-right">
-                    <div class="your-order-card-inc-dec">
-                      <i class="fa-solid fa-plus"></i>
-                      <span>1</span>
-                      <i class="fa-solid fa-minus"></i>
-                    </div>
-                    <button class="btn-delete">
-                      <i class="fa-solid fa-trash-can"></i> Remove
-                    </button>
-                  </div>
-                </div>
-              </div>
+                <?php
+                    }
+                }
+                ?>
+                
+             </div>
 
               <div class="your-order-price">
                 <div class="your-order-price-s-content">
@@ -744,6 +750,36 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
       });
       $("#busket-close").click(function (params) {
         $(".food-busket").hide(500);
+      });
+    </script>
+    <script>
+      $(document).ready(function(){
+
+        // increment button 
+        $('.increment_btn').click(function (e){
+          e.preventDefault();
+
+          var qty = $(this).closest('.product_data').find('.input-qty').val();
+          var value = parseInt(qty, 10);
+          value = isNaN(value) ? 0 : value;
+          if(value < 10){
+            value++;
+            $(this).closest('.product_data').find('.input-qty').val(value);
+          }
+        });
+
+        // decrement button 
+        $('.decrement_btn').click(function (e){
+          e.preventDefault();
+
+          var qty = $(this).closest('.product_data').find('.input-qty').val();
+          var value = parseInt(qty, 10);
+          value = isNaN(value) ? 0 : value;
+          if(value > 1){
+            value--;
+            $(this).closest('.product_data').find('.input-qty').val(value);
+          }
+        });
       });
     </script>
   </body>
