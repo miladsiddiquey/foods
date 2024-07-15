@@ -1,7 +1,7 @@
+<!-- old code  -->
 <?php
 session_start();
 // session_destroy();
-$productId = $_POST['cart_product_id'] ?? '';
 $productName = $_POST['cart_product_name'] ?? '';
 $productPrice = $_POST['cart_product_price'] ?? '';
 $subTitle = $_POST['cart_sub_title'] ?? ''; // Default value if not set
@@ -15,11 +15,10 @@ if (isset($_POST['order'])) {
     }
 
     $check_product = array_column($_SESSION['cart'], 'pName');
-    if (in_array($productName, $check_product)) {
+    if(in_array($productName, $check_product)){
         echo "<script>alert('Product already added'); window.history.back();</script>";
     } else {
         $_SESSION['cart'][] = array(
-            'pId' => $productId, 
             'pName' => $productName, 
             'price' => $productPrice,
             'sTitle' => $subTitle,
@@ -32,16 +31,12 @@ if (isset($_POST['order'])) {
     }
 }
 
-// remove items 
-if (isset($_POST['remove']) && isset($_POST['remove_item'])) {
-    $remove_item_id = $_POST['remove_item'];
-
+if(isset($_POST['remove'])){
     foreach ($_SESSION['cart'] as $key => $value) {
-        if ($value['pId'] === $remove_item_id) {
+        if($value['pName'] === $_POST['remove_item']){
             unset($_SESSION['cart'][$key]);
-            $_SESSION['cart'] = array_values($_SESSION['cart']); // Reindex array
+            $_SESSION['cart'] = array_values($_SESSION['cart']);
             header('location: order-online.php');
-            exit;
         }
     }
 }

@@ -29,9 +29,9 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
 
   <body>
     <!-- preloader  -->
-    <div class="preloader">
+    <!-- <div class="preloader">
       <img src="icon/loader.gif" alt="loader" />
-    </div>
+    </div> -->
 
     <!-- preloader end -->
 
@@ -328,7 +328,8 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                             <div class="add-more-modal-header">
                               <h4><?= $foodRow['product_name'] ?></h4>
                               <input type="hidden" name="cart_product_name" value="<?= $foodRow['product_name'] ?>">
-                              
+                              <input type="hidden" name="cart_product_id" value="<?= $foodRow['id'] ?>">
+
                               <h5 >$<?= $foodRow['price'] ?></h5>
                               <input type="hidden" name="cart_product_price" value="<?= $foodRow['price'] ?>">
                             </div>
@@ -398,12 +399,17 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                             </div>
                             <div class="__food-price">
                                 <i class="fa-solid fa-minus decrement_btn"></i>
-                                <input type="text" name="quantity" class="form-control input-qty bg-white text-center" value="1">
-                                <i class="fa-solid fa-plus increment_btn"></i>
+                                <input 
+                                  type="text" 
+                                  name="quantity" 
+                                  style="border:none; width:20px; padding: 0px;" 
+                                  class="form-control input-qty  bg-white text-center" 
+                                  value="1"> 
+                                <i class="fa-solid fa-plus  increment_btn"></i>
                             </div>
                             <button type="submit"   name="order">
                               Order Now
-                              <span class="total-price-in-modal">$<?= $foodRow['price'];?></span>
+                              <!-- <span class="total-price-in-modal">$<?= $foodRow['price'];?></span> -->
                             </button>
                           </form>
 
@@ -426,6 +432,9 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
       </div>
 
       <div class="order-food-right">
+
+
+       <form action="add_to_cart.php" method="POST">
             <div class="your-order-box">
               <div class="your-order-box-header">
                 <h4>Your Order</h4>
@@ -438,31 +447,52 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
               <div class="your-order-box-content">
 
               <?php
-               
-                if(isset($_SESSION['cart'])) {
-                    foreach ($_SESSION['cart'] as $key => $value) {
-                ?>
+                $singlePrice = 0;
+                $subTotal = 0;
+                $taxRate = 1;
+
+         if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $key => $value) {
+                if (isset($value['price'], $value['fQuentity'])) {
+                    $singlePrice = (float)$value['price'] * (int)$value['fQuentity'];
+                    $subTotal += $singlePrice;
+                    ?>
                     <div class="your-order-card">
                         <div class="your-order-card-left">
-                            <!-- <h6>No Food Category</h6> -->
                             <h5><?php echo $value['pName']; ?></h5>
-                            <h4>$<?php echo $value['price']; ?></h4>
+                            <h4 class="item-price">$<?php echo number_format($singlePrice, 2); ?></h4>
                         </div>
                         <div class="your-order-card-right">
                             <div class="your-order-card-inc-dec">
-                                <i class="fa-solid fa-plus"></i>
-                                <span><?php echo $value['fQuentity']; ?></span> 
-                                <i class="fa-solid fa-minus"></i>
+                            <div class="your-order-card-inc-dec product_data">
+                                <i class="fa-solid fa-plus increment_btn"></i>
+                                <input 
+                                  type="text" 
+                                  name="quantity" 
+                                  style="border:none; width:10px; padding: 0;" 
+                                  class="form-control input-qty bg-white text-center"  
+                                  value="<?php echo $value['fQuentity']; ?>" readonly>
+                                <i class="fa-solid fa-minus decrement_btn"></i>
                             </div>
-                            <button class="btn-delete">
-                                <i class="fa-solid fa-trash-can"></i> Remove
-                            </button>
+                            </div>
+                            <form action="add_to_cart.php" method="POST">
+                                <button type="submit" name="remove" class="btn-delete">
+                                    <i class="fa-solid fa-trash-can"></i> Remove
+                                </button>
+                                <input type="hidden" name="remove_item" value="<?= $value['pId']; ?>">
+                            </form>
                         </div>
                     </div>
-                <?php
-                    }
+                    <?php
                 }
-                ?>
+            }
+            // Calculate tax and total after the loop
+            $taxAmount = ($subTotal * $taxRate) / 100;
+            $total = $subTotal + $taxAmount;
+        } else {
+            echo "<p>No products in the cart.</p>";
+        }
+        ?>
                 
              </div>
 
@@ -470,22 +500,25 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                 <div class="your-order-price-s-content">
                   <div class="your-order-price-s">
                     <span>Subtotal</span>
-                    <span>$19.35</span>
+                    <span>$<?php echo isset($subTotal) ? number_format($subTotal, 2) : '0.00'; ?></span>
                   </div>
                   <div class="your-order-price-s">
                     <span>Tax</span>
-                    <span>$4.98</span>
+                    <span>$<?php echo isset($taxAmount) ? number_format($taxAmount, 2) : '0.00'; ?></span>
                   </div>
                 </div>
                 <div class="total-price">
                   <h6>Total :</h6>
-                  <h5>$21.87</h5>
+                  <h5>$<?php echo isset($total) ? number_format($total, 2) : '0.00'; ?></h5>
                 </div>
                 <div class="confirm-order">
                   <a href="#" class="sure-modal-btn">Confirm Order </a>
                 </div>
               </div>
             </div>
+      </form>
+
+      
           </div>
     </div>
   </div>
@@ -752,7 +785,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
         $(".food-busket").hide(500);
       });
     </script>
-    <script>
+    <!-- <script>
       $(document).ready(function(){
 
         // increment button 
@@ -781,6 +814,44 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
           }
         });
       });
-    </script>
+    </script> -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Increment button
+        const incrementBtns = document.querySelectorAll('.increment_btn');
+        incrementBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const inputQty = this.closest('.product_data').querySelector('.input-qty');
+                let value = parseInt(inputQty.value, 10);
+                value = isNaN(value) ? 0 : value;
+                if (value < 10) {
+                    value++;
+                    inputQty.value = value;
+                }
+            });
+        });
+
+        // Decrement button
+        const decrementBtns = document.querySelectorAll('.decrement_btn');
+        decrementBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const inputQty = this.closest('.product_data').querySelector('.input-qty');
+                let value = parseInt(inputQty.value, 10);
+                value = isNaN(value) ? 0 : value;
+                if (value > 1) {
+                    value--;
+                    inputQty.value = value;
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+    
   </body>
 </html>
