@@ -87,7 +87,7 @@
 
     <div class="signup-form">
       <div class="container">
-        <form action="#" method="post" class="signup-form-content">
+        <form action="signup_process.php" method="post" class="signup-form-content">
           <h3>Create Your Account</h3>
 
           <div class="form-grid">
@@ -139,7 +139,7 @@
             <div class="form-input">
               <label for="phone">Phone</label>
               <input
-                type="tel"
+                type="text"
                 name="phone"
                 id="phone "
                 placeholder="Type your Phone"
@@ -167,7 +167,7 @@
               <label for="States">States</label>
               <input
                 type="text"
-                name="States"
+                name="states"
                 id="States "
                 placeholder="Type your States"
               />
@@ -176,7 +176,7 @@
               <label for="Zip">Zip</label>
               <input
                 type="text"
-                name="Zip"
+                name="zip"
                 id="Zip "
                 placeholder="Type your Zip"
               />
@@ -184,7 +184,7 @@
           </div>
 
           <div class="form-check">
-            <input type="checkbox" name="check" id="check" />
+            <input type="checkbox" name="check" value="yes" id="check" />
             <label for="check"
               >Agree to our Terms of Use & Privacy Policy ?</label
             >
