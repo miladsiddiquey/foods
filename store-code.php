@@ -41,3 +41,41 @@ if(isset($_POST['remove'])){
     }
 }
 ?>
+
+
+<!-- login  -->
+
+<?php
+include "./admin/config.php";
+
+$obj = new Database();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $password = $_POST['password'];
+
+    // Validate email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: login.php?error=invalidemail");
+        exit();
+    }
+
+    // Fetch user data from the database
+    $obj->select('user_data', '*', null, "email='{$email}'", null, null);
+    $result = $obj->getResult();
+
+    if (!empty($result)) {
+        $user = $result[0];
+
+        // Verify password
+        if (password_verify($password, $user['password'])) {
+            // Successful login, redirect to the protected page
+            header("Location: protected_page.php");
+        } else {
+            header("Location: login.php?error=incorrectpassword");
+        }
+    } else {
+        header("Location: login.php?error=usernotfound");
+    }
+}
+?>
