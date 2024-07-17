@@ -91,23 +91,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                   </button>
                 </div>
               </div>
-              <div class="your-order-card">
-                <div class="your-order-card-left">
-                  <h6>No Food Category</h6>
-                  <h5>No Food</h5>
-                  <h4>$00.00</h4>
-                </div>
-                <div class="your-order-card-right">
-                  <div class="your-order-card-inc-dec">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>1</span>
-                    <i class="fa-solid fa-minus"></i>
-                  </div>
-                  <button class="btn-delete">
-                    <i class="fa-solid fa-trash-can"></i> Remove
-                  </button>
-                </div>
-              </div>
+              
             </div>
 
             <div class="your-order-price">
@@ -170,7 +154,8 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
 
 
 
-    <div class="login-modal active">
+    <form action="#" method="post">
+      <div class="login-modal active">
       <div class="login-modal-box">
         <div class="login-modal-box-header">
           <h5>Login</h5>
@@ -200,6 +185,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
         </div>
       </div>
     </div>
+      </form>
 
     <!-- ==================== header end======================== -->
 

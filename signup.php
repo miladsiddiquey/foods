@@ -87,124 +87,94 @@
 
     <div class="signup-form">
       <div class="container">
-        <form action="signup_process.php" method="post" class="signup-form-content">
-          <h3>Create Your Account</h3>
+      <form action="signup_process.php" method="post" class="signup-form-content">
+        <h3>Create Your Account</h3>
 
-          <div class="form-grid">
-            <div class="form-input">
-              <label for="fname">Full Name</label>
-              <input
-                type="text"
-                name="fname"
-                id="fname "
-                placeholder="Type your First Name "
-              />
-            </div>
-            <div class="form-input">
-              <label for="lname">Last Name</label>
-              <input
-                type="text"
-                name="lname"
-                id="lname "
-                placeholder="Type your Last Name "
-              />
-            </div>
-            <div class="form-input">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                name="email"
-                id="email "
-                placeholder="Type your Email "
-              />
-            </div>
-            <div class="form-input">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                name="password"
-                id="password "
-                placeholder="Type your Password "
-              />
-            </div>
-            <div class="form-input">
-              <label for="cpassword">Confirm Password</label>
-              <input
-                type="password"
-                name="cpassword"
-                id="cpassword "
-                placeholder="Type your Confirm Password "
-              />
-            </div>
-            <div class="form-input">
-              <label for="phone">Phone</label>
-              <input
-                type="text"
-                name="phone"
-                id="phone "
-                placeholder="Type your Phone"
-              />
-            </div>
-            <div class="form-input">
-              <label for="date">Date</label>
-              <input
-                type="date"
-                name="date"
-                id="date "
-                placeholder="Type your date"
-              />
-            </div>
-            <div class="form-input">
-              <label for="city">city</label>
-              <input
-                type="text"
-                name="city"
-                id="city "
-                placeholder="Type your city"
-              />
-            </div>
-            <div class="form-input">
-              <label for="States">States</label>
-              <input
-                type="text"
-                name="states"
-                id="States "
-                placeholder="Type your States"
-              />
-            </div>
-            <div class="form-input">
-              <label for="Zip">Zip</label>
-              <input
-                type="text"
-                name="zip"
-                id="Zip "
-                placeholder="Type your Zip"
-              />
-            </div>
-          </div>
+        <?php
+        $error = isset($_GET['error']) ? $_GET['error'] : '';
+        ?>
 
-          <div class="form-check">
+        <div class="form-grid">
+            <div class="form-input">
+                <label for="fname">Full Name</label>
+                <input type="text" name="fname" id="fname" placeholder="Type your First Name" />
+            </div>
+            <div class="form-input">
+                <label for="lname">Last Name</label>
+                <input type="text" name="lname" id="lname" placeholder="Type your Last Name" />
+            </div>
+            <div class="form-input">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Type your Email" />
+                <?php if ($error == 'invalidemail') { ?>
+                    <div class="error">Invalid email format</div>
+                <?php } ?>
+            </div>
+            <div class="form-input">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Type your Password" />
+                <?php if ($error == 'passwordlength') { ?>
+                    <div class="error">Password must be at least 4 characters</div>
+                <?php } ?>
+            </div>
+            <div class="form-input">
+                <label for="cpassword">Confirm Password</label>
+                <input type="password" name="cpassword" id="cpassword" placeholder="Type your Confirm Password" />
+                <?php if ($error == 'passwordmatch') { ?>
+                    <div class="error">Passwords do not match</div>
+                <?php } ?>
+            </div>
+            <div class="form-input">
+                <label for="phone">Phone</label>
+                <input type="text" name="phone" id="phone" placeholder="Type your Phone" />
+            </div>
+            <div class="form-input">
+                <label for="date">Date</label>
+                <input type="date" name="date" id="date" placeholder="Type your date" />
+            </div>
+            <div class="form-input">
+                <label for="city">City</label>
+                <input type="text" name="city" id="city" placeholder="Type your City" />
+            </div>
+            <div class="form-input">
+                <label for="states">States</label>
+                <input type="text" name="states" id="states" placeholder="Type your States" />
+            </div>
+            <div class="form-input">
+                <label for="zip">Zip</label>
+                <input type="text" name="zip" id="zip" placeholder="Type your Zip" />
+            </div>
+        </div>
+
+        <div class="form-check">
             <input type="checkbox" name="check" value="yes" id="check" />
-            <label for="check"
-              >Agree to our Terms of Use & Privacy Policy ?</label
-            >
-          </div>
+            <label for="check">Agree to our Terms of Use & Privacy Policy?</label>
+        </div>
 
-          <div class="form-btn">
-            <button type="submit">Confirm</button>
+        <div class="form-btn">
+            <button type="submit" name="submit">Confirm</button>
             <button class="form-cancel-btn" type="button">Cancel</button>
-          </div>
-          <div class="form-cancel">
+        </div>
+        <div class="form-cancel">
             <div class="form-cancel-box">
-              <h5>😞</h5>
-              <h4>Do you really want to cancel?</h4>
-              <div class="form-cancel-box-btn">
-                <button type="reset">Confirm</button>
-                <button type="button">Cancel</button>
-              </div>
+                <h5>😞</h5>
+                <h4>Do you really want to cancel?</h4>
+                <div class="form-cancel-box-btn">
+                    <button type="reset">Confirm</button>
+                    <button type="button">Cancel</button>
+                </div>
             </div>
-          </div>
-        </form>
+        </div>
+    </form>
+
+    <style>
+    .error {
+        color: red;
+        font-size: 12px;
+    }
+    </style>
+
+
       </div>
     </div>
 
