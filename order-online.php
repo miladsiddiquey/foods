@@ -46,9 +46,16 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
           <ul class="nav-bar">
             <li><a href="index.php">Home</a></li>
             <li><a href="store-info.php">Store Info</a></li>
-            <li><a href="order-online.php" class="active">Online Order</a></li>
-            <ul>
-              <li><a href="#" class="login-modal-btn">Login</a></li>
+            <li><a href="order-online.php">Order Online</a></li>
+            <li>
+            <?php           
+              if (isset($_SESSION['user_id'])) {               
+                  echo '<li><a href="logout.php">Logout</a></li>';
+              } else {
+                  echo '<li><a href="order-online.php" class="login-modal-btn">Login</a></li>';
+              }
+              ?>
+            </li>
               <li><a href="signup.php">Sign up</a></li>
               <li>
                 <a href="#" class="busket-pc" id="busket-btn"
@@ -148,44 +155,57 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
           width: 270px;
         }
       }
+
+      .error {
+            color: red;
+            font-size: 0.8em;
+        }
+        
     </style>
 
 
 
 
 
-    <form action="#" method="post">
-      <div class="login-modal active">
-      <div class="login-modal-box">
-        <div class="login-modal-box-header">
-          <h5>Login</h5>
-          <i class="fa-solid fa-xmark"></i>
+  <form action="login_process.php" method="post">
+        <div class="login-modal <?php echo isset($_SESSION['user_id']) ? '' : 'active'; ?>">">
+            <div class="login-modal-box">
+                <div class="login-modal-box-header">
+                    <h5>Login</h5>
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <div class="login-modal-box-body">
+                    <div class="login-modal-input">
+                        <label for="email">E-mail*</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Enter Your Email"
+                            value="<?php echo isset($_GET['error']) && $_GET['error'] === 'Invalid email format' ? htmlspecialchars($_POST['email']) : ''; ?>"
+                        />
+                        <?php if (isset($_GET['error']) && $_GET['error'] === 'Invalid email format'): ?>
+                            <span class="error"><?php echo $_GET['error']; ?></span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="login-modal-input">
+                        <label for="pass">Password*</label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="pass"
+                            placeholder="Enter Your Password"
+                        />
+                        <?php if (isset($_GET['error']) && ($_GET['error'] === 'Incorrect password' || $_GET['error'] === 'User not found')): ?>
+                            <span class="error"><?php echo $_GET['error']; ?></span>
+                        <?php endif; ?>
+                    </div>
+                    <a href="#">Forgot your password?</a>
+                    <button type="submit">Login</button>
+                </div>
+            </div>
         </div>
-        <div class="login-modal-box-body">
-          <div class="login-modal-input">
-            <label for="email">E-mail*</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter Your Email"
-            />
-          </div>
-          <div class="login-modal-input">
-            <label for="pass">Password*</label>
-            <input
-              type="password"
-              name="password"
-              id="pass"
-              placeholder="Enter Your Password "
-            />
-          </div>
-          <a href="#">Forgot your password?</a>
-          <button type="submit">Login</button>
-        </div>
-      </div>
-    </div>
-      </form>
+    </form>
 
     <!-- ==================== header end======================== -->
 
@@ -255,6 +275,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                 <div class="faq-title">
                   <img src="<?= "./upload-image/" . $faqRow['header_image']; ?>" alt="img" />
                   <h4><?= $faqRow['header_title'] ?></h4>
+                  
                 </div>
               </button>
             </h2>
@@ -313,6 +334,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
 
                             <div class="add-more-modal-header">
                               <h4><?= $foodRow['product_name'] ?></h4>
+                              <input type="hidden" name="cart_product_title" value="<?= $faqRow['header_title']?>">
                               <input type="hidden" name="cart_product_name" value="<?= $foodRow['product_name'] ?>">
                               <input type="hidden" name="cart_product_id" value="<?= $foodRow['id'] ?>">
 
@@ -445,8 +467,10 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                     ?>
                     <div class="your-order-card">
                         <div class="your-order-card-left">
+                            <h6><?php echo $value['pTitle']; ?></h6>
                             <h5><?php echo $value['pName']; ?></h5>
                             <h4 class="item-price">$<?php echo number_format($singlePrice, 2); ?></h4>
+                            <h5 class="main_price"><?php echo $value['price']; ?></h5>
                         </div>
                         <div class="your-order-card-right">
                             <div class="your-order-card-inc-dec">
@@ -457,7 +481,7 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                                   name="quantity" 
                                   style="border:none; width:10px; padding: 0;" 
                                   class="form-control input-qty bg-white text-center"  
-                                  value="<?php echo $value['fQuentity']; ?>" readonly>
+                                  value="<?php echo $value['fQuentity']; ?>">
                                 <i class="fa-solid fa-minus decrement_btn"></i>
                             </div>
                             </div>
@@ -486,19 +510,19 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
                 <div class="your-order-price-s-content">
                   <div class="your-order-price-s">
                     <span>Subtotal</span>
-                    <span>$<?php echo isset($subTotal) ? number_format($subTotal, 2) : '0.00'; ?></span>
+                    <span class="subTotal">$<?php echo isset($subTotal) ? number_format($subTotal, 2) : '0.00'; ?></span>
                   </div>
                   <div class="your-order-price-s">
                     <span>Tax</span>
-                    <span>$<?php echo isset($taxAmount) ? number_format($taxAmount, 2) : '0.00'; ?></span>
+                    <span class="Tax">$<?php echo isset($taxAmount) ? number_format($taxAmount, 2) : '0.00'; ?></span>
                   </div>
                 </div>
                 <div class="total-price">
                   <h6>Total :</h6>
-                  <h5>$<?php echo isset($total) ? number_format($total, 2) : '0.00'; ?></h5>
+                  <h5 class="totalPrice">$<?php echo isset($total) ? number_format($total, 2) : '0.00'; ?></h5>
                 </div>
                 <div class="confirm-order">
-                  <a href="#" class="sure-modal-btn">Confirm Order </a>
+                  <a href="#" class="<?php echo isset($_SESSION['user_id']) ? 'sure-modal-btn' : 'login-modal-btn'; ?>">Confirm Order </a>
                 </div>
               </div>
             </div>
@@ -771,69 +795,95 @@ $faq_id = isset($_POST['faq_id']) ? $_POST['faq_id'] : (isset($_GET['id']) ? $_G
         $(".food-busket").hide(500);
       });
     </script>
-    <!-- <script>
-      $(document).ready(function(){
 
-        // increment button 
-        $('.increment_btn').click(function (e){
-          e.preventDefault();
 
-          var qty = $(this).closest('.product_data').find('.input-qty').val();
-          var value = parseInt(qty, 10);
-          value = isNaN(value) ? 0 : value;
-          if(value < 10){
-            value++;
-            $(this).closest('.product_data').find('.input-qty').val(value);
-          }
-        });
 
-        // decrement button 
-        $('.decrement_btn').click(function (e){
-          e.preventDefault();
 
-          var qty = $(this).closest('.product_data').find('.input-qty').val();
-          var value = parseInt(qty, 10);
-          value = isNaN(value) ? 0 : value;
-          if(value > 1){
-            value--;
-            $(this).closest('.product_data').find('.input-qty').val(value);
-          }
-        });
-      });
-    </script> -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Increment button
-        const incrementBtns = document.querySelectorAll('.increment_btn');
-        incrementBtns.forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const inputQty = this.closest('.product_data').querySelector('.input-qty');
-                let value = parseInt(inputQty.value, 10);
-                value = isNaN(value) ? 0 : value;
-                if (value < 10) {
-                    value++;
-                    inputQty.value = value;
-                }
-            });
-        });
-
-        // Decrement button
-        const decrementBtns = document.querySelectorAll('.decrement_btn');
-        decrementBtns.forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const inputQty = this.closest('.product_data').querySelector('.input-qty');
-                let value = parseInt(inputQty.value, 10);
-                value = isNaN(value) ? 0 : value;
-                if (value > 1) {
-                    value--;
-                    inputQty.value = value;
-                }
-            });
+<script>
+  
+document.addEventListener('DOMContentLoaded', function() {
+    // Increment button
+    const incrementBtns = document.querySelectorAll('.increment_btn');
+    incrementBtns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const inputQty = this.closest('.product_data').querySelector('.input-qty');
+            let value = parseInt(inputQty.value, 10);
+            value = isNaN(value) ? 0 : value;
+            if (value < 10) { // Adjust this limit as per your requirement
+                value++;
+                inputQty.value = value;
+                updateItemPrice(this); // Update price when incrementing
+                updateCartTotals(); // Update cart totals after quantity change
+            }
         });
     });
+
+    // Decrement button
+    const decrementBtns = document.querySelectorAll('.decrement_btn');
+    decrementBtns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const inputQty = this.closest('.product_data').querySelector('.input-qty');
+            let value = parseInt(inputQty.value, 10);
+            value = isNaN(value) ? 0 : value;
+            if (value > 1) {
+                value--;
+                inputQty.value = value;
+                updateItemPrice(this); // Update price when decrementing
+                updateCartTotals(); // Update cart totals after quantity change
+            }
+        });
+    });
+
+    function updateItemPrice(button) {
+        const container = button.closest('.your-order-card');
+        const inputQty = container.querySelector('.input-qty');
+        const itemPrice = container.querySelector('.item-price');
+        const mainPrice = parseFloat(container.querySelector('.main_price').textContent);
+        const quantity = parseInt(inputQty.value);
+
+        if (!isNaN(mainPrice) && !isNaN(quantity)) {
+            const newPrice = mainPrice * quantity;
+            itemPrice.textContent = '$' + newPrice.toFixed(2);
+        }
+    }
+
+    function updateCartTotals() {
+        // Collect all item prices to calculate subtotal
+        const itemPrices = document.querySelectorAll('.item-price');
+        let subTotal = 0;
+        itemPrices.forEach(function(item) {
+            subTotal += parseFloat(item.textContent.replace('$', ''));
+        });
+
+        // Update subtotal display
+        const subtotalElement = document.querySelector('.subTotal');
+        subtotalElement.textContent = '$' + subTotal.toFixed(2);
+
+        // Calculate tax and update tax display
+        const taxRate = 1; // Assuming tax rate is 1%
+        const taxAmount = (subTotal * taxRate) / 100;
+        const taxElement = document.querySelector('.Tax');
+        taxElement.textContent = '$' + taxAmount.toFixed(2);
+
+        // Update total display
+        const total = subTotal + taxAmount;
+        const totalElement = document.querySelector('.totalPrice');
+        totalElement.textContent = '$' + total.toFixed(2);
+    }
+});
+
 </script>
+
+
+
+
+
+
+
+
+
 
 
 

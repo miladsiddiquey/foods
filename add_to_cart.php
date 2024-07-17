@@ -2,6 +2,7 @@
 session_start();
 // session_destroy();
 $productId = $_POST['cart_product_id'] ?? '';
+$productTitle = $_POST['cart_product_title'] ?? '';
 $productName = $_POST['cart_product_name'] ?? '';
 $productPrice = $_POST['cart_product_price'] ?? '';
 $subTitle = $_POST['cart_sub_title'] ?? ''; // Default value if not set
@@ -20,6 +21,7 @@ if (isset($_POST['order'])) {
     } else {
         $_SESSION['cart'][] = array(
             'pId' => $productId, 
+            'pTitle' => $productTitle,            
             'pName' => $productName, 
             'price' => $productPrice,
             'sTitle' => $subTitle,
@@ -45,4 +47,8 @@ if (isset($_POST['remove']) && isset($_POST['remove_item'])) {
         }
     }
 }
+
+
+
+
 ?>
